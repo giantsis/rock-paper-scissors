@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+   <div class="buttons">
+    <button id="rockButton" class="game-button">
+        <img src="/images/rock.jpg" alt="">Rock</button>
+    <button id="paperButton" class="game-button">
+        <img src="/images/paper.jpg" alt="">Paper</button>
+    <button id="scissorsButton" class="game-button">
+        <img src="/images/scissors.jpg" alt="">
+        Scissors</button>
+    </div>      
+    <div    id="resultsMessage"></div> 
+    <script>
+        let countPlayerWin=0;
+        let countComputerWin=0;
+        let countTies=0;
+
+
+        function getComputerChoice(){
+            let randomNumber=Math.floor(Math.random()*3);
+            switch (randomNumber) {
+            case 0:
+                 return "rock"
+             case 1:
+                return "paper"      
+             case 2:
+                 return "scissors"
+                } 
+        }
+                     
+        function playerSelection(){
+            let player=prompt("Please choose between rock-paper-scissors");
+            if (player.toLowerCase() ==="rock")
+            {
+                console.log("Player choose rock");
+            }
+            else if (player.toLowerCase() ==="paper") {
+                console.log("Player choose paper"); 
+            }
+            else if(player.toLowerCase() ==="scissors"){
+                console.log("Player choose scissors")
+            }
+            return player;
+        }
+        
+        function playRound(playerSelection, computerChoice) {
+            let resultMessage=""
+            if(playerSelection === computerChoice)
+            {
+                resultMessage="It's a tie."
+                countTies ++;
+            }
+            else
+              if (
+               (playerSelection==="rock" && computerChoice==="scissors")||
+               (playerSelection==="paper" && computerChoice==="rock")||
+               (playerSelection==="scissors" && computerChoice==="paper")
+               )
+               {
+                resultMessage="You win!"
+                countPlayerWin ++;
+               }
+               else{
+                resultMessage="Computer win.";
+                countComputerWin ++;
+               }
+
+               displayResults(resultMessage);
+            
+        }
+
+         function displayResults(message){
+             let resultsMessage=document.getElementById("resultsMessage")
+            resultsMessage.textContent= "Player wins: "+ countPlayerWin +" Computer wins: "+countComputerWin +" Ties: " +countTies ;
+            if (countPlayerWin === 5 || countComputerWin === 5) {
+                announceWinner();
+            }
+        }
+        
+
+        function announceWinner(){
+            let resultsMessage=document.getElementById("resultsMessage");
+            if (countPlayerWin === 5) {
+                resultsMessage.textContent += " Congratulations! You are the overall winner!";
+            } else {
+                resultsMessage.textContent += " Computer is the overall winner. Better luck next time!";
+            }
+
+            document.getElementById("rockButton").disabled=true;
+            document.getElementById("paperButton").disabled=true;
+            document.getElementById("scissorsButton").disabled=true;
+        }
+
+        function handleButtonClick(playerSelection){
+            playRound(playerSelection,getComputerChoice());
+        }
+       
+        document.getElementById('rockButton').addEventListener("click",()=> {
+            handleButtonClick("rock");
+        })
+        
+        document.getElementById('paperButton').addEventListener("click",()=>{
+            handleButtonClick("paper");
+        })
+       
+        document.getElementById('scissorsButton').addEventListener("click",()=>{
+            handleButtonClick("scissors");
+        })
+       
+    </script>
+</body>
+</html>
